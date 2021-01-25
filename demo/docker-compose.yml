@@ -1,0 +1,30 @@
+version: "2"
+services:
+  rabbitmq:
+    build: ../rabbitmq
+    ports:
+      - 15674:15674
+  demo:
+    build: .
+    volumes:
+      - ..:/src
+    depends_on:
+      - rabbitmq
+    ports:
+      - 8000:8000
+    command:
+      [
+        "./demo/wait-for-it.sh",
+        "rabbitmq:61613",
+        "--",
+        "python",
+        "-m",
+        "http.server",
+      ]
+  demo-server:
+    build: .
+    volumes:
+      - .:/src
+    depends_on:
+      - rabbitmq
+    command: ["./wait-for-it.sh", "rabbitmq:61613", "--", "python", "server.py"]

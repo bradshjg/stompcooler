@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="stompcooler:config" data-default="/topic/demo" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+      crossorigin="anonymous"
+    />
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <div data-sc-subscribe-to="/topic/auto" class="container">
+      This element subscribes to the /queue/auto channel
+    </div>
+
+    <div id="replace-demo" class="container">
+      <h2>initial content to be replaced</h2>
+    </div>
+
+    <div class="container">
+      <ul id="append-demo">
+        <li>initial list item to append to</li>
+      </ul>
+    </div>
+
+    <div class="container">
+      <ol id="prepend-demo">
+        <li>initial list item to prepend to</li>
+      </ol>
+    </div>
+
+    <div class="container">
+      <h3>Able to publish serialized form submissions to a topic</h3>
+      <form data-sc-publish-to="/topic/publish-demo">
+        <div class="form-group">
+          <label for="exampleText">Submit some text</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleText"
+            name="exampleText"
+          />
+        </div>
+        <div class="form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="exampleCheck"
+            name="exampleCheck"
+          />
+          <label class="form-check-label" for="exampleCheck"
+            >Check me out</label
+          >
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit" />
+      </form>
+    </div>
+
+    <div class="container">
+      <span data-sc-subscribe-to="/topic/publish-demo"
+        >Will be replaced with serialized form</span
+      >
+    </div>
+
+    <div class="container">
+      <h3>Able to publish single form field text to a topic</h3>
+      <form
+        data-sc-publish-to="/topic/publish-field-demo"
+        data-field-id="exampleField"
+      >
+        <div class="form-group">
+          <label for="exampleField">Submit some text</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleField"
+            name="exampleField"
+          />
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit" />
+      </form>
+    </div>
+
+    <div class="container">
+      <span data-sc-subscribe-to="/topic/publish-field-demo"
+        >Will be replaced with field text</span
+      >
+    </div>
+
+    <div class="container">
+      <h3>
+        Able to publish serialized form rpc-style via temporary reply-to queues
+      </h3>
+      <form
+        data-sc-publish-to="/queue/rpc-demo"
+        data-sc-reply-to="/temp-queue/rpc-demo"
+      >
+        <div class="form-group">
+          <label for="upperText"
+            >Submit some text that will be upper-cased</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="upperText"
+            name="upperText"
+          />
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit" />
+      </form>
+    </div>
+
+    <div class="container">
+      <span id="rpc-replace"
+        >Will be upper-cased and only received by this session</span
+      >
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+      integrity="sha256-nkP8cj5xaTdWK/BsZl+57ZCE/Y/i4UNtbNTpgH+6Taw="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- stompcooler inclusion -->
+    <script src="/stompcooler.js"></script>
+
+    <!-- example of custom jQuery event -->
+    <script type="application/javascript">
+      $(document).ready(function() {
+        $("body").on(
+          "customReset",
+          {
+            customResetData: $("<h2>We cleared the whole page...</h2>")
+          },
+          function(event, prologue, epilogue) {
+            let prologue_html = $(prologue);
+            let epilogue_html = $(epilogue);
+            let body = $("body");
+            body.empty();
+            body.append(prologue_html);
+            body.append(event.data.customResetData);
+            body.append(epilogue_html);
+          }
+        );
+      });
+    </script>
+
+    <!-- example of the Notification API -->
+    <script type="application/javascript">
+      $(document).ready(function() {
+        Notification.requestPermission().then(function(result) {
+          console.log(result);
+        });
+        $("body").on("notifyUser", function(event, title, body) {
+          new Notification(title, { body: body });
+        });
+      });
+    </script>
+  </body>
+</html>
