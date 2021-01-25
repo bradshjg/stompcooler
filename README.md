@@ -19,26 +19,37 @@ It is intended to be:
 
 ## Boilerplate
 
-To set up Stompcooler, something akin to the following boilerplate is needed.
+To use stompcooler, the following depencies are needed:
+
+JQuery 3.0+, stomp.js
+
+e.g.
 
 ```
  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha256-nkP8cj5xaTdWK/BsZl+57ZCE/Y/i4UNtbNTpgH+6Taw=" crossorigin="anonymous"></script>
  <script src="path/to/stompcooler.js"></script>
- <script type="application/javascript">
-   Stompcooler.connect('ws://localhost:15674/ws', 'guest', 'guest', '/', '/queue/test')
- </script>
  ```
 
- It depends on JQuery 3.0+ and stomp.js
+You must also add the Stompcooler config as a `meta` element, e.g.
 
- The signature of the `Stompcooler.connect` function is
+```html
+<html lang="en">
+  <head>
+    ...
+    <meta name="stompcooler:config" data-default="/topic/demo" />
+  </head>
+  ...
+</html>
+```
 
- `websocket-url`, `username`, `password`, `vhost`, `default-queue`
+The following attributes (with defaults) are used as the config:
 
- The default queue (which could also be a topic like `/topic/default`) will be subsribed automatically regardless
- of any HTML attributes present and can be used to trigger events or send extra JavaScript (see the 
- `stompcooler.js` docs for header details.)
+* data-ws-uri - websocket URI (ws://localhost:15674/ws)
+* data-default - default queue (/topic/default)
+* data-username - username (guest)
+* data-password - password (guest)
+* data-vhost - vhost (/)
 
  ## Demo
 

@@ -19,9 +19,6 @@
  * <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
  * <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha256-nkP8cj5xaTdWK/BsZl+57ZCE/Y/i4UNtbNTpgH+6Taw=" crossorigin="anonymous"></script>
  * <script src="path/to/stompcooler.js"></script>
- * <script type="application/javascript">
- *   Stompcooler.connect('ws://localhost:15674/ws', 'guest', 'guest', '/', '/queue/test')
- * </script>
  *
  * @example <caption>Sending directives from Python (see demo.py and the corresponding stomp-demo.html)</caption>
  * conn = stomp.Connection()
